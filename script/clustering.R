@@ -15,7 +15,7 @@ load("./temp.Rda")
 
 # define the date range of data to perform clustering analysis
 beginDate <- as.Date("2012-01-01")
-endDate <- as.Date("2012-03-31")
+endDate <- as.Date("2012-01-31")
 # the length of the period in unit of day or week
 nDay <- as.numeric(endDate - beginDate + 1)
 nWeek <- nDay/7

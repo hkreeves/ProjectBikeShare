@@ -7,9 +7,9 @@ library(plyr)
 ## EXPLORATION ON DATA
 ## a subset of available data corresponding to Q1 2012
 url<- "http://capitalbikeshare.com/assets/files/trip-history-data/2012-1st-quarter.csv"
-download.file(url, "./data/y2012q1.csv")
+download.file(url, "./data/2012q1.csv")
 
-bs <- read.csv("./data/y2012q1.csv", stringsAsFactors=F)
+bs <- read.csv("./data/2012q1.csv", stringsAsFactors=F)
 str(bs)
 selected.vars <- names(bs)
 selected.vars <- selected.vars[-c(4,7)] # remove the station address text variables
