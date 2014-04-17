@@ -213,3 +213,9 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+data/processed data/bs2011combined.csv
+data/.Rhistory
+ggmapTemp.png
+temp.Rda
+*.csv
+temp.Rda
