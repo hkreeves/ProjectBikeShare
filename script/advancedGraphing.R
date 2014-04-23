@@ -22,7 +22,6 @@ print(bs.plot2)
 
 # try to add lines
 bs.plot2 <-  bs.plot +
-  geom_segment(aes(x = long, y = lat, xend = long.b, yend = lat.b, color=factor(0, levels=levels(factor(clust$Cluster))), size=Freq/40), 
-    alpha=0.4, lineend="round", data=out)
-+
-  scale_size_continuous(range = c(1, 6))
+  geom_segment(aes(x = long, y = lat, xend = long.b, yend = lat.b, color=factor(1,levels=1:3), lwd=Freq/100), 
+    alpha=0.4, lineend="butt", data=subset(station, Freq > 20)) 
+  scale_size_continuous(guide=F)
