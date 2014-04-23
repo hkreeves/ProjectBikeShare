@@ -24,8 +24,8 @@ bs2013$End.Date <- strptime(bs2013$End.Date, "%m/%d/%Y %H:%M")
 
 summary(as.Date(bs2013$Start.Date))
 # subset data according to date range or any other criteria
-startDate <- as.Date("2013-01-01")
-endDate <- as.Date("2013-03-31")
+startDate <- as.Date("2013-04-01")
+endDate <- as.Date("2013-06-30")
 nDay <- as.integer(endDate - startDate + 1)
 bs0 <- subset(bs2013, (as.Date(Start.Date) >= startDate) & (as.Date(End.Date) <= endDate))
 
@@ -39,13 +39,14 @@ util <- res$popStation
 
 # use DBSCAN to identify clusters
 # arguments of createCluster: distance.matrix, threshold (per week), min.neighbor
-clust <- createCluster(dm, 30, 3)$data
+clust <- createCluster(dm, 32, 3)$data
 
 # plot onto a map
-dc.map <- get_map(location="Washington, DC", zoom=12, maptype="roadmap", 
-color="color", source="google")
+dc.map <- get_map(location="Washington, DC", zoom=12, maptype="roadmap", color="color", source="google")
 
+# plot points
 bs.plot <- plotCluster(clust, util)
-bs.plot <- plotLink(bs.graph, clust, 20, bs.plot) 
+# plot links, specified by a lower cutoff.
+bs.plot <- plotLink(bs.graph, clust, 32, bs.plot) 
 print(bs.plot)
 

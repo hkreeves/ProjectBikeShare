@@ -6,6 +6,7 @@
 ## April 13th, 2014
 ##
 
+library(igraph)
 library(data.table)
 library(plyr)
 library(fpc)
@@ -96,8 +97,8 @@ plotCluster <- function(clust, util, base=dc.map, noise=T){
   if(noise)  clust.names[1] <-  "Unclustered"
 
   # color scheme
-  color <- c("grey32", brewer.pal(9, "Set1"))
-  scale_colour_brewer(palette="Set3")
+  color <- c("grey", brewer.pal(9, "Set1"))
+  #scale_colour_brewer(palette="Set3")
 
   # plot on the map
   # color coding indicates cluster
@@ -110,6 +111,7 @@ plotCluster <- function(clust, util, base=dc.map, noise=T){
       aes(x=long, 
         y=lat, 
         fill=factor(Cluster), 
+        #color=factor(Cluster > 0),
         size=sqrt(Freq)),
       shape=21,
       color="darkblue",
@@ -117,6 +119,8 @@ plotCluster <- function(clust, util, base=dc.map, noise=T){
       alpha=0.9) +
     scale_fill_manual(values=color, name="Community", labels=clust.names) +
     scale_size_area(breaks=sqrt(area.scale), labels=area.scale, name="Exchanges per day") +
+    guides(fill=guide_legend(override.aes=list(size=5)), size=guide_legend(override.aes=list(fill="black"))) +
+    #scale_color_manual(values=c("grey", "darkblue")) +
     theme(axis.title=element_blank())
 }
 
@@ -136,6 +140,9 @@ plotLink <- function(bs.graph, clust, minEx=40, base.plot){
 
   # subset bs.graph
   station <- subset(station, (Term2 > Term1) & (Freq >= minEx))
+  
+  # color scheme
+  color <- c("grey", brewer.pal(9, "Set1"))
 
   bs.plot2 <-  base.plot +
     geom_segment(
