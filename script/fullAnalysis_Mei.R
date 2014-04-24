@@ -3,7 +3,8 @@
 ##
 ## Full Analysis
 ##
-## April 13th, 2014
+## Author: Yinyue Hu
+## Created: April 22nd, 2014
 ##
 
 # load stationBook data
@@ -24,8 +25,8 @@ bs2013$End.Date <- strptime(bs2013$End.Date, "%m/%d/%Y %H:%M")
 
 summary(as.Date(bs2013$Start.Date))
 # subset data according to date range or any other criteria
-startDate <- as.Date("2013-04-01")
-endDate <- as.Date("2013-06-30")
+startDate <- as.Date("2013-10-01")
+endDate <- as.Date("2013-12-31")
 nDay <- as.integer(endDate - startDate + 1)
 bs0 <- subset(bs2013, (as.Date(Start.Date) >= startDate) & (as.Date(End.Date) <= endDate))
 
@@ -47,6 +48,6 @@ dc.map <- get_map(location="Washington, DC", zoom=12, maptype="roadmap", color="
 # plot points
 bs.plot <- plotCluster(clust, util)
 # plot links, specified by a lower cutoff.
-bs.plot <- plotLink(bs.graph, clust, 32, bs.plot) 
+bs.plot <- plotLink(bs.graph, clust, 8, bs.plot) 
 print(bs.plot)
 
