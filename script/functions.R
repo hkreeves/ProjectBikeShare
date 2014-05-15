@@ -14,7 +14,9 @@ library(RColorBrewer)
 library(ggmap)
 
 # create graph data in the following format: terminal1, terminal2, frequency
-createGraph <- function(bs0, nDay){
+createGraph <- function(bs0, nDay=NA){
+  message("nDay argument is depreciated and no longer need manual input. The function calculates it itself.")
+  nDay <- getNDay(bs0)
   nWeek <- nDay/7
 
   # find the frequency of each path ID
@@ -26,14 +28,19 @@ createGraph <- function(bs0, nDay){
   bs0$N <- bs0$N/nWeek
   bs0 <- as.data.frame(bs0)
   names(bs0) <- c("Term1", "Term2", "Freq")
- 
+
+  message("Statistics of #exchanges per 7 days for each path:") 
+  print(quantile(bs0$Freq, seq(0.95, 1, 0.01)))
+  message(paste("mean #exchanges per 7 days in top 5% quantitle:", round(mean(bs0$Freq[bs0$Freq > quantile(bs0$Freq, 0.95)]), 4)))
+
   # return 
   return(bs0)
 }
 
 # create distanc matrix for data
-createDistanceMatrix <- function(bs.graph, nDay){    
-  nWeek <- nDay/7
+createDistanceMatrix <- function(bs.graph, nDay=NA){    
+ 
+  message("nDay argument is adundant.")
 
   ######
   # construct distance matrix (adjacent matrix) using igraph
@@ -45,7 +52,7 @@ createDistanceMatrix <- function(bs.graph, nDay){
   dist.mtrx <- as.matrix(get.adjacency(bs.g, attr="Freq")) 
   dist.mtrx <- dist.mtrx + t(dist.mtrx)
   
-  # convert frequency to distance using dist=1/(Freq/nWeek + 1)
+  # convert frequency to distance using dist=1/(FreqPerWeek + 1)
   dist.mtrx <- 1/(dist.mtrx + 1)
   dist.mtrx <- data.frame(as.integer(rownames(dist.mtrx)), dist.mtrx)
   names(dist.mtrx)[1] <- "TermID"
@@ -162,3 +169,6 @@ plotLink <- function(bs.graph, clust, minEx=40, base.plot){
   return(bs.plot2)
 }
 
+getNDay <- function(bs){
+  length(unique(as.Date(bs$Start.Date)))
+}

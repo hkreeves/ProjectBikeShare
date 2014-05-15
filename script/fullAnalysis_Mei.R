@@ -4,7 +4,7 @@
 ## Full Analysis
 ##
 ## Author: Yinyue Hu
-## Created: April 22nd, 2014
+## Last updated: April 22nd, 2014
 ##
 
 # load stationBook data
@@ -23,24 +23,20 @@ bs2013$Start.Date <- strptime(bs2013$Start.Date, "%m/%d/%Y %H:%M")
 bs2013$End.Date <- strptime(bs2013$End.Date, "%m/%d/%Y %H:%M")
 #bs2012$Type <- as.factor(bs2012$Type)
 
-summary(as.Date(bs2013$Start.Date))
 # subset data according to date range or any other criteria
-startDate <- as.Date("2013-10-01")
-endDate <- as.Date("2013-12-31")
-nDay <- as.integer(endDate - startDate + 1)
-bs0 <- subset(bs2013, (as.Date(Start.Date) >= startDate) & (as.Date(End.Date) <= endDate))
+bs0 <- subset(bs2013, Quarter == "Q1")
 
 # create graph data from the dataset
-bs.graph <- createGraph(bs0, nDay)
+bs.graph <- createGraph(bs2013)
 
 # try the createDistanceMatrix function
-res <- createDistanceMatrix(bs.graph, nDay=nDay)
+res <- createDistanceMatrix(bs.graph)
 dm <- res$distMatrix
 util <- res$popStation
 
 # use DBSCAN to identify clusters
 # arguments of createCluster: distance.matrix, threshold (per week), min.neighbor
-clust <- createCluster(dm, 32, 3)$data
+clust <- createCluster(dm, 37, 3)$data
 
 # plot onto a map
 dc.map <- get_map(location="Washington, DC", zoom=12, maptype="roadmap", color="color", source="google")
